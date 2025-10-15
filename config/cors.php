@@ -6,7 +6,7 @@ return [
 	'allowed_methods' => ['*'],
 
 	// Set comma-separated origins in .env: FRONTEND_ORIGINS="http://localhost:5173,https://vyapari-zen-hub.vercel.app"
-	'allowed_origins' => array_filter(array_map('trim', explode(',', env('FRONTEND_ORIGINS', '*')))),
+	'allowed_origins' => array_filter(array_map('trim', explode(',', env('FRONTEND_ORIGINS', 'http://localhost:8080,http://localhost:8081,http://localhost:5173,https://vyapari-zen-hub.vercel.app')))),
 
 	'allowed_origins_patterns' => [],
 

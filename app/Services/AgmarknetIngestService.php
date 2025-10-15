@@ -34,8 +34,15 @@ class AgmarknetIngestService
 				}
 			}
 
-			$response = Http::timeout(20)->get($url, $params);
-			$response->throw();
+			try {
+				$response = Http::timeout(30)->retry(3, 2000)->get($url, $params);
+				$response->throw();
+			} catch (\Exception $e) {
+				\Log::warning("API timeout/error for offset {$offset}: " . $e->getMessage());
+				// Skip this batch and continue
+				$offset += $limit;
+				continue;
+			}
 			$body = $response->json();
 			$records = $body['records'] ?? [];
 			$count = is_countable($records) ? count($records) : 0;
